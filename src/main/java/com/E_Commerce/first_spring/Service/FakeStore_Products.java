@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 public class FakeStore_Products implements Product_Interface {
 
@@ -27,7 +29,7 @@ public class FakeStore_Products implements Product_Interface {
     }
 
     @Override
-    public Product getallproducts() {
+    public List<Product> getallproducts() {
         return null;
     }
 

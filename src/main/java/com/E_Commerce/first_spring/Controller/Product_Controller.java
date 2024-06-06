@@ -6,6 +6,8 @@ import com.E_Commerce.first_spring.Modle.Product;
 import com.E_Commerce.first_spring.Service.Product_Interface;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class Product_Controller {
@@ -18,8 +20,9 @@ public class Product_Controller {
 
 
     @GetMapping("/products")
-    public void getallproducts(){
+    public List<Product_dtos> getallproducts(){
 
+        return null;
     }
     @GetMapping("/products/{id}")
     public Product_dtos getproductbyid(@PathVariable("id") Integer id) {
