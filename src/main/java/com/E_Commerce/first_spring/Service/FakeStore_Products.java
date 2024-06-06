@@ -32,9 +32,15 @@ public class FakeStore_Products implements Product_Interface {
     }
 
     @Override
-    public Product createproduct() {
-
-        return null;
+    public Product createproduct(String title, String description, String image, double price, String category) {
+        Fakestore_ProductDTOs requestBody = new Fakestore_ProductDTOs();
+        requestBody.setTitle(title);
+        requestBody.setCategory(category);
+        requestBody.setImage(image);
+        requestBody.setDescription(description);
+        requestBody.setPrice(String.valueOf(price));
+        Fakestore_ProductDTOs response = restTemplate.postForObject("https://fakestoreapi.com/products"
+                ,requestBody,Fakestore_ProductDTOs.class);
+        return response.ToProduct();
     }
-
 }

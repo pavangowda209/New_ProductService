@@ -1,12 +1,10 @@
 package com.E_Commerce.first_spring.Controller;
 
+import com.E_Commerce.first_spring.DTos.CreateProduct_dto;
 import com.E_Commerce.first_spring.DTos.Product_dtos;
 import com.E_Commerce.first_spring.Modle.Product;
 import com.E_Commerce.first_spring.Service.Product_Interface;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -19,11 +17,11 @@ public class Product_Controller {
     }
 
 
-    @GetMapping("products")
+    @GetMapping("/products")
     public void getallproducts(){
 
     }
-    @GetMapping("products/{id}")
+    @GetMapping("/products/{id}")
     public Product_dtos getproductbyid(@PathVariable("id") Integer id) {
         Product product = productInterface.getproductbyid(id);
         // here converting produc to productDto
@@ -40,9 +38,14 @@ public class Product_Controller {
         dtos.setCategory(product.getCategory());
         return dtos;
     }
-
-    @PostMapping("products")
-    public void createproduct(){
-
+    @PostMapping("/products")
+    public Product createproduct(@RequestBody CreateProduct_dto dto) {
+        Product p = productInterface.createproduct(dto.getTitle(),
+                dto.getDescription(),
+                dto.getImage(),
+                dto.getPrice(),
+                dto.getCategory());
+        return p;
     }
+
 }

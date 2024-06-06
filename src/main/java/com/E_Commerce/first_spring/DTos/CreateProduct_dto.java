@@ -1,0 +1,19 @@
+package com.E_Commerce.first_spring.DTos;
+
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@Getter
+@Setter
+public class CreateProduct_dto {
+    String title;
+    Double price;
+    String description;
+    String image;
+    String category;
+}
