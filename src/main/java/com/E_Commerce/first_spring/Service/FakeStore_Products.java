@@ -4,6 +4,7 @@ package com.E_Commerce.first_spring.Service;
 import com.E_Commerce.first_spring.DTos.Fakestore_ProductDTOs;
 import com.E_Commerce.first_spring.Modle.Product;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +26,9 @@ public class FakeStore_Products implements ProductInterface {
     public Product getproductbyid(Integer id) {
         ResponseEntity<Fakestore_ProductDTOs> response = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id,
                 Fakestore_ProductDTOs.class);
+       if(response.getStatusCode().equals(HttpStatus.OK)) {
+           return null;
+       }
         Fakestore_ProductDTOs fakestoreProductDTOs = response.getBody();
         return fakestoreProductDTOs.ToProduct();
     }

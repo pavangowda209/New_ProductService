@@ -2,6 +2,7 @@ package com.E_Commerce.first_spring.Controller;
 
 import com.E_Commerce.first_spring.DTos.CreateProduct_dto;
 import com.E_Commerce.first_spring.DTos.Product_dtos;
+import com.E_Commerce.first_spring.Exceptions.ProductNotFoundException;
 import com.E_Commerce.first_spring.Modle.Product;
 import com.E_Commerce.first_spring.Service.ProductInterface;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,14 @@ public class Product_Controller {
         return list;
     }
     @GetMapping("/products/{id}")
-    public Product_dtos getproductbyid(@PathVariable("id") Integer id) {
+    public Product_dtos getproductbyid(@PathVariable("id") Integer id) throws ProductNotFoundException {
         Product product = productInterface.getproductbyid(id);
+        if(product == null) {
+            throw new ProductNotFoundException("product is not found");
+        }
         // here converting produc to productDto
-        return convertproductToproductdtos(product);
+        Product_dtos response = convertproductToproductdtos(product);
+        return response;
     }
     // convert the product what we recieve in the fakestore product to productDto
     private Product_dtos convertproductToproductdtos(Product product) {
@@ -55,5 +60,4 @@ public class Product_Controller {
                 dto.getCategory());
         return p;
     }
-
 }
