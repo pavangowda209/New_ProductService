@@ -3,26 +3,31 @@ package com.E_Commerce.first_spring.Controller;
 import com.E_Commerce.first_spring.DTos.CreateProduct_dto;
 import com.E_Commerce.first_spring.DTos.Product_dtos;
 import com.E_Commerce.first_spring.Modle.Product;
-import com.E_Commerce.first_spring.Service.Product_Interface;
+import com.E_Commerce.first_spring.Service.ProductInterface;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 public class Product_Controller {
     // creating object of interface
-    private Product_Interface productInterface;
+    private ProductInterface productInterface;
 
-    public Product_Controller(Product_Interface productInterface) {
+    public Product_Controller(ProductInterface productInterface) {
         this.productInterface = productInterface;
     }
 
-
     @GetMapping("/products")
-    public List<Product_dtos> getallproducts(){
+    public List<Product_dtos> getallproducts() {
+        List<Product_dtos> list = new ArrayList<>();
+        List<Product>products = productInterface.getallproducts();
+        for(Product p : products) {
+            list.add(convertproductToproductdtos(p));
+        }
 
-        return null;
+        return list;
     }
     @GetMapping("/products/{id}")
     public Product_dtos getproductbyid(@PathVariable("id") Integer id) {

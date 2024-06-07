@@ -8,10 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FakeStore_Products implements Product_Interface {
+public class FakeStore_Products implements ProductInterface {
 
     private RestTemplate restTemplate;
 
@@ -30,8 +31,15 @@ public class FakeStore_Products implements Product_Interface {
 
     @Override
     public List<Product> getallproducts() {
-        return null;
+        List<Product> products = new ArrayList<>();
+        Fakestore_ProductDTOs[] response= restTemplate.getForObject("https://fakestoreapi.com/products",
+                Fakestore_ProductDTOs[].class);
+        for(Fakestore_ProductDTOs dto:response) {
+            products.add(dto.ToProduct());
+        }
+        return products;
     }
+
 
     @Override
     public Product createproduct(String title, String description, String image, double price, String category) {
@@ -45,4 +53,6 @@ public class FakeStore_Products implements Product_Interface {
                 ,requestBody,Fakestore_ProductDTOs.class);
         return response.ToProduct();
     }
+
+
 }
