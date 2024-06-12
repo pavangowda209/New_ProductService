@@ -2,9 +2,11 @@ package com.E_Commerce.first_spring.Controller;
 
 import com.E_Commerce.first_spring.DTos.CreateProduct_dto;
 import com.E_Commerce.first_spring.DTos.Product_dtos;
+import com.E_Commerce.first_spring.Exceptions.CategoryNotFoundExceptions;
 import com.E_Commerce.first_spring.Exceptions.ProductNotFoundException;
 import com.E_Commerce.first_spring.Modle.Product;
 import com.E_Commerce.first_spring.Service.ProductInterface;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,11 +18,14 @@ public class Product_Controller {
     // creating object of interface
     private ProductInterface productInterface;
 
-    public Product_Controller(ProductInterface productInterface) {
+    public Product_Controller(@Qualifier("selfProductService") ProductInterface productInterface) {
+
         this.productInterface = productInterface;
     }
 
-    @GetMapping("/products")
+    // Returning all products in the fakestore products or selfproduct service
+
+    @GetMapping("/allproducts")
     public List<Product_dtos> getallproducts() {
         List<Product_dtos> list = new ArrayList<>();
         List<Product>products = productInterface.getallproducts();
@@ -30,6 +35,9 @@ public class Product_Controller {
 
         return list;
     }
+
+    // Returning product by required Id
+
     @GetMapping("/products/{id}")
     public Product_dtos getproductbyid(@PathVariable("id") Integer id) throws ProductNotFoundException {
         Product product = productInterface.getproductbyid(id);
@@ -37,10 +45,10 @@ public class Product_Controller {
             throw new ProductNotFoundException("product is not found");
         }
         // here converting produc to productDto
-        Product_dtos response = convertproductToproductdtos(product);
-        return response;
+        return convertproductToproductdtos(product);
     }
     // convert the product what we recieve in the fakestore product to productDto
+
     private Product_dtos convertproductToproductdtos(Product product) {
         Product_dtos dtos = new Product_dtos();
         dtos.setId(product.getId());
@@ -51,8 +59,11 @@ public class Product_Controller {
         dtos.setCategory(product.getCategory());
         return dtos;
     }
-    @PostMapping("/products")
-    public Product createproduct(@RequestBody CreateProduct_dto dto) {
+
+    // Creating Products in the Fakestore products service
+
+    @PostMapping("/create")
+    public Product createproducts(@RequestBody CreateProduct_dto dto) throws CategoryNotFoundExceptions {
         Product p = productInterface.createproduct(dto.getTitle(),
                 dto.getDescription(),
                 dto.getImage(),

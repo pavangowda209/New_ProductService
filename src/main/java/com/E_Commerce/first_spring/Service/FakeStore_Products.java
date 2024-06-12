@@ -3,7 +3,6 @@ package com.E_Commerce.first_spring.Service;
 
 import com.E_Commerce.first_spring.DTos.Fakestore_ProductDTOs;
 import com.E_Commerce.first_spring.Modle.Product;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStore_Products")
 public class FakeStore_Products implements ProductInterface {
 
     private RestTemplate restTemplate;
@@ -36,7 +35,7 @@ public class FakeStore_Products implements ProductInterface {
     @Override
     public List<Product> getallproducts() {
         List<Product> products = new ArrayList<>();
-        Fakestore_ProductDTOs[] response= restTemplate.getForObject("https://fakestoreapi.com/products",
+        Fakestore_ProductDTOs[] response= restTemplate.getForObject("https://fakestoreapi.com/allproducts",
                 Fakestore_ProductDTOs[].class);
         for(Fakestore_ProductDTOs dto:response) {
             products.add(dto.ToProduct());
@@ -53,10 +52,9 @@ public class FakeStore_Products implements ProductInterface {
         requestBody.setImage(image);
         requestBody.setDescription(description);
         requestBody.setPrice(String.valueOf(price));
-        Fakestore_ProductDTOs response = restTemplate.postForObject("https://fakestoreapi.com/products"
+        Fakestore_ProductDTOs response = restTemplate.postForObject("https://fakestoreapi.com/create"
                 ,requestBody,Fakestore_ProductDTOs.class);
         return response.ToProduct();
     }
-
 
 }

@@ -1,7 +1,7 @@
 package com.E_Commerce.first_spring.Advice;
 
 import com.E_Commerce.first_spring.DTos.ErrorDtos;
-import com.E_Commerce.first_spring.Exceptions.CategoryNotFoundException;
+import com.E_Commerce.first_spring.Exceptions.CategoryNotFoundExceptions;
 import com.E_Commerce.first_spring.Exceptions.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +17,11 @@ public class ProductControllerException {
         errorDtos.setMessage(exception.getMessage());
         return new ResponseEntity<>(errorDtos, HttpStatus.NOT_FOUND);
     }
-    public ResponseEntity<ErrorDtos> handlecategoryException(CategoryNotFoundException exception) {
+    @ExceptionHandler(CategoryNotFoundExceptions.class)
+    public ResponseEntity<ErrorDtos> handlecategoryException(CategoryNotFoundExceptions exception) {
         ErrorDtos errorDtos = new ErrorDtos();
-        errorDtos.setMessage(exception.getMessage());
         errorDtos.setCode("Status_code");
-        return new ResponseEntity<>(errorDtos,HttpStatus.NOT_FOUND);
+        errorDtos.setMessage(exception.getMessage());
+        return new ResponseEntity<>(errorDtos, HttpStatus.NOT_FOUND);
     }
 }
