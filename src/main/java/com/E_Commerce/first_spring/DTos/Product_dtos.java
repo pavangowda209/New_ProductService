@@ -4,10 +4,12 @@ import com.E_Commerce.first_spring.Modle.Category;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 
 @Getter
 @Setter
-public class Product_dtos {
+public class Product_dtos implements Serializable {
     private Integer id;
     private String title;
     private String description;

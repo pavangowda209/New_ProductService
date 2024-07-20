@@ -3,6 +3,7 @@ package com.E_Commerce.first_spring.Service;
 
 import com.E_Commerce.first_spring.DTos.Fakestore_ProductDTOs;
 import com.E_Commerce.first_spring.Modle.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,5 +57,11 @@ public class FakeStore_Products implements ProductInterface {
                 ,requestBody,Fakestore_ProductDTOs.class);
         return response.ToProduct();
     }
+
+    @Override
+    public Page<Product> getpaginated(Integer pageNo, Integer pageSize) {
+        return null;
+    }
+
 
 }

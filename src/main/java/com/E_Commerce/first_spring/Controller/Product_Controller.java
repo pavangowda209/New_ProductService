@@ -7,6 +7,10 @@ import com.E_Commerce.first_spring.Exceptions.ProductNotFoundException;
 import com.E_Commerce.first_spring.Modle.Product;
 import com.E_Commerce.first_spring.Service.ProductInterface;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -37,7 +41,7 @@ public class Product_Controller {
     }
 
     // Returning product by required Id
-
+    @Cacheable(value = "product")
     @GetMapping("/products/{id}")
     public Product_dtos getproductbyid(@PathVariable("id") Integer id) throws ProductNotFoundException {
         Product product = productInterface.getproductbyid(id);
@@ -61,7 +65,7 @@ public class Product_Controller {
     }
 
     // Creating Products in the Fakestore products service
-
+    @CachePut(value = "product",key = "#dto.title")
     @PostMapping("/create")
     public Product createproducts(@RequestBody CreateProduct_dto dto) throws CategoryNotFoundExceptions {
         Product p = productInterface.createproduct(dto.getTitle(),
@@ -70,5 +74,11 @@ public class Product_Controller {
                 dto.getPrice(),
                 dto.getCategory());
         return p;
+    }
+    @GetMapping("/page/{pageNo}/{pageSize}")
+    public ResponseEntity<List<Product>> getpaginated(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize) {
+        Page<Product> paginated = productInterface.getpaginated(pageNo,pageSize);
+        System.out.println("paginated:" + paginated);
+        return ResponseEntity.ok(paginated.getContent());
     }
 }

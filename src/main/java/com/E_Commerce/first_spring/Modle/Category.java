@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -18,13 +19,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-public class Category extends BasicModel{
+public class Category extends BasicModel implements Serializable {
 
     private String name;
     // Here implement the cardinality
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<Product> products;
 
 }
