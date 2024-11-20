@@ -1,6 +1,6 @@
 package com.E_Commerce.first_spring.DTos;
 
-import com.E_Commerce.first_spring.Modle.Category;
+import com.E_Commerce.first_spring.Models.Category;
 import lombok.Getter;
 import lombok.Setter;
 

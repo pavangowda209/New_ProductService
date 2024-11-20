@@ -2,8 +2,8 @@ package com.E_Commerce.first_spring.Service;
 
 import com.E_Commerce.first_spring.DTos.Product_dtos;
 import com.E_Commerce.first_spring.Exceptions.CategoryNotFoundExceptions;
-import com.E_Commerce.first_spring.Modle.Category;
-import com.E_Commerce.first_spring.Modle.Product;
+import com.E_Commerce.first_spring.Models.Category;
+import com.E_Commerce.first_spring.Models.Product;
 import com.E_Commerce.first_spring.Repository.CategoryRepository;
 import com.E_Commerce.first_spring.Repository.ProductRepository;
 import com.E_Commerce.first_spring.Repository.Projections.ProductWithIdandTitle;
@@ -46,7 +46,7 @@ public class SelfProductService implements ProductInterface{
         Product producttoBesaved = new Product();
         producttoBesaved.setTitle(title);
         producttoBesaved.setDescription(description);
-        producttoBesaved.setImageurl(image);
+        producttoBesaved.setImageUrl(image);
         producttoBesaved.setPrice(String.valueOf(price));
         producttoBesaved.setCategory(fetchedcategory.get());
         Product updatedproduct = productRepository.save(producttoBesaved);
@@ -60,6 +60,21 @@ public class SelfProductService implements ProductInterface{
         Pageable pageable = PageRequest.of(pageNo,pageSize);
         Page<Product> prd = productRepository.findAll(pageable);
         return prd;
+    }
+
+    @Override
+    public Product deleteProductbyId(Integer Id) {
+        return null;
+    }
+
+    @Override
+    public String[] getallCategories() {
+        return new String[0];
+    }
+
+    @Override
+    public List<Product> getCategoryBycategoryname(String categoryname) {
+        return List.of();
     }
 
     private void convertprojectionTodto(List<ProductWithIdandTitle> list) {

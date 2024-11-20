@@ -1,7 +1,7 @@
 package com.E_Commerce.first_spring.DTos;
 
-import com.E_Commerce.first_spring.Modle.Category;
-import com.E_Commerce.first_spring.Modle.Product;
+import com.E_Commerce.first_spring.Models.Category;
+import com.E_Commerce.first_spring.Models.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +21,7 @@ public class Fakestore_ProductDTOs {
         p.setTitle(title);
         p.setDescription(description);
         p.setPrice(price);
-        p.setImageurl(image);
+        p.setImageUrl(image);
 
         Category c = new Category();
         c.setName(category);

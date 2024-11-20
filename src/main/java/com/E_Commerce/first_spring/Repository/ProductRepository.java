@@ -1,6 +1,7 @@
 package com.E_Commerce.first_spring.Repository;
 
-import com.E_Commerce.first_spring.Modle.Product;
+
+import com.E_Commerce.first_spring.Models.Product;
 import com.E_Commerce.first_spring.Repository.Projections.ProductWithIdandTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

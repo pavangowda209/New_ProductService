@@ -1,6 +1,6 @@
 package Job;
 
-import com.E_Commerce.first_spring.Modle.Product;
+import com.E_Commerce.first_spring.Models.Product;
 import com.E_Commerce.first_spring.Repository.ProductRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

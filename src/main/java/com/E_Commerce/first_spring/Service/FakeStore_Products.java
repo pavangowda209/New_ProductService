@@ -2,7 +2,8 @@ package com.E_Commerce.first_spring.Service;
 
 
 import com.E_Commerce.first_spring.DTos.Fakestore_ProductDTOs;
-import com.E_Commerce.first_spring.Modle.Product;
+
+import com.E_Commerce.first_spring.Models.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,30 @@ public class FakeStore_Products implements ProductInterface {
     @Override
     public Page<Product> getpaginated(Integer pageNo, Integer pageSize) {
         return null;
+    }
+
+    @Override
+    public List<Product> getCategoryBycategoryname(String categoryname) {
+        List<Product> products = new ArrayList<>();
+        Fakestore_ProductDTOs[] response= restTemplate.getForObject("https://fakestoreapi.com/products/category"+categoryname,
+                Fakestore_ProductDTOs[].class);
+        for(Fakestore_ProductDTOs dto:response) {
+            products.add(dto.ToProduct());
+        }
+        return products;
+    }
+
+    @Override
+    public Product deleteProductbyId(Integer Id) {
+        ResponseEntity<Fakestore_ProductDTOs> response = restTemplate.getForEntity("https://fakestoreapi.com/products/"+Id , Fakestore_ProductDTOs.class);
+        Fakestore_ProductDTOs re = response.getBody();
+        return re.ToProduct();
+    }
+
+    @Override
+    public String[] getallCategories() {
+        String[] categories = restTemplate.getForObject("https://fakestoreapi.com/products/categories",String[].class);
+        return categories;
     }
 
 

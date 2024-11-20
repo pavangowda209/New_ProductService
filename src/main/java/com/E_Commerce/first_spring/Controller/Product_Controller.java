@@ -1,10 +1,12 @@
 package com.E_Commerce.first_spring.Controller;
 
+
 import com.E_Commerce.first_spring.DTos.CreateProduct_dto;
+import com.E_Commerce.first_spring.DTos.Fakestore_ProductDTOs;
 import com.E_Commerce.first_spring.DTos.Product_dtos;
 import com.E_Commerce.first_spring.Exceptions.CategoryNotFoundExceptions;
 import com.E_Commerce.first_spring.Exceptions.ProductNotFoundException;
-import com.E_Commerce.first_spring.Modle.Product;
+import com.E_Commerce.first_spring.Models.Product;
 import com.E_Commerce.first_spring.Service.ProductInterface;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CachePut;
@@ -12,23 +14,19 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 public class Product_Controller {
     // creating object of interface
     private ProductInterface productInterface;
-
+    // Constructor
     public Product_Controller(@Qualifier("selfProductService") ProductInterface productInterface) {
-
         this.productInterface = productInterface;
     }
 
-    // Returning all products in the fakestore products or selfproduct service
-
+    // **Getting all products from the service layer..**
     @GetMapping("/allproducts")
     public List<Product_dtos> getallproducts() {
         List<Product_dtos> list = new ArrayList<>();
@@ -58,7 +56,7 @@ public class Product_Controller {
         dtos.setId(product.getId());
         dtos.setTitle(product.getTitle());
         dtos.setDescription(product.getDescription());
-        dtos.setImageurl(product.getImageurl());
+        dtos.setImageurl(product.getImageUrl());
         dtos.setPrice(product.getPrice());
         dtos.setCategory(product.getCategory());
         return dtos;
@@ -80,5 +78,19 @@ public class Product_Controller {
         Page<Product> paginated = productInterface.getpaginated(pageNo,pageSize);
         System.out.println("paginated:" + paginated);
         return ResponseEntity.ok(paginated.getContent());
+    }
+    @GetMapping("/products/category/{categoryname}")
+    public List<Product_dtos> getCategoryByName(@PathVariable("category") String categoryName) {
+        List<Product>products = productInterface.getCategoryBycategoryname(categoryName);
+        List<Product_dtos> dtOs = new ArrayList<>();
+        for (Product p : products) {
+            dtOs.add(convertproductToproductdtos(p));
+        }
+        return dtOs;
+    }
+    @DeleteMapping("/products/{Id}")
+    public Product_dtos deleteproductById(@PathVariable("Id") Integer Id) {
+        Product p = productInterface.deleteProductbyId(Id);
+        return convertproductToproductdtos(p);
     }
 }
